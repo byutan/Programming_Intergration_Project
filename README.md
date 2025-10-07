@@ -44,4 +44,14 @@ project
   </code></pre>
 </section>
 
+<h2 style="display: flex; align-items: center;">
+  Frontend
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/react/react.png" 
+       alt="React Logo" 
+       width="32" 
+       style="margin-left: 8px">
+</h2>
 
+`App.js`: Nơi chứa liên kết và cấu hình HTML/CSS của tất cả component chính.  
+`"dependencies"` của `package.json`: Thông tin tất cả dependencies được cài thêm vào trong ReactJS.
+```
