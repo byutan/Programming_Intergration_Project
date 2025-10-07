@@ -4,7 +4,6 @@ import fs from 'fs';
 const router = express.Router();
 
 router.post('/signup', (req, res) => {
-    console.log("req.body:", req.body);
     const usersFile = process.env.USERS_FILE;
     const { name, email, password, confirmedPassword, role } = req.body;
     if (!name || !email || !password || !confirmedPassword || !role) {
@@ -36,3 +35,4 @@ router.post('/signup', (req, res) => {
 })
 
 export default router;
+
