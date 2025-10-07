@@ -97,3 +97,32 @@ app.use('/api', signUpRouter)                                           //<- Th�
 export default app;
 ```
 - `src/routes`: Thư mục chứa tất cả định nghĩa của API phục vụ component.
+## Setting up.
+- [Node.js](https://nodejs.org/en/download/), [Express.js](https://expressjs.com/), [React.js](https://react.dev/) đã được cài đặt.
+- Tạo template FE & BE và các **dependencies** trong `package.json` cần thiết đã được cài đặt.
+- Clone repo về và thêm thủ công như cấu trúc thư mục.
+
+## Executing.
+- Frontend: Từ folder `client`, nhập:
+```
+npm run dev
+```
+- Hiển thị đúng:
+```
+> client--@0.0.0 dev
+> vite
+
+
+  VITE v7.1.9  ready in 851 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+```
+- Backend: Từ folder `server`, nhập:
+```
+node server.js
+```
+- Hiển thị đúng (local host của server: `http://localhost:3000`):
+```
+Your app running on port 3000
