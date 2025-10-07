@@ -53,5 +53,7 @@ project
 </h2>
 
 `App.js`: Nơi chứa liên kết và cấu hình HTML/CSS của tất cả component chính.  
-`"dependencies"` của `package.json`: Thông tin tất cả dependencies được cài thêm vào trong ReactJS.
+`"dependencies"` của `package.json`: Thông tin tất cả dependencies được cài thêm vào trong ReactJS.  
+`components`: Thư mục chứa tất cả định nghĩa của component.
+
 ```
