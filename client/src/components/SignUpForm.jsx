@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { Link } from "react-router-dom";
@@ -23,11 +24,37 @@ const signUpSchema = z.object({
 });
 
 export default function SignUpForm() {
-    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(signUpSchema) });
-    const onSubmit = (data) => {
-        console.log("Form data:", data);
+    const [serverMessage, setServerMessage] = useState(null);
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: zodResolver(signUpSchema),
+        mode: "onChange"
+    });
+    const onSubmit = async (data) => {
+        try {
+            const res = await fetch('http://localhost:3000/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: data.fullName,
+                    email: data.email,
+                    password: data.password,
+                    confirmedPassword: data.confirmedPassword,
+                    role: data.role
+                }),
+            });
+            const result = await res.json();
+            if (res.ok) {
+                setServerMessage({ type: "success", text: result.message || "'Đăng ký tài khoản thành công." });
+            } else {
+                setServerMessage({ type: "error", text: result.error || "Đăng ký tài khoản thất bại. Vui lòng thử lại sau." });
+            }
+            console.log("Form data:", data);
+        } catch {
+            setServerMessage({ type: "error", text: "Không thể kết nối tới server." });
+        }
     }
-
     return (
         <div>
             <div className="flex justify-center text-3xl mb-6 mt-16">
@@ -86,12 +113,20 @@ export default function SignUpForm() {
                         ĐĂNG KÝ
                     </button>
                 </div>
+                {serverMessage && (
+                    <p
+                        className={`text-center mt-4 ${serverMessage.type === "error" ? "text-red-500" : "text-green-500"
+                            }`}
+                    >
+                        {serverMessage.text}
+                    </p>
+                )}
                 <div className='flex justify-center mt-3 text-gray-400'>
-                    Hoặc chưa có tài khoản?  
+                    Hoặc chưa có tài khoản?
                     <Link to='/signin'>
-                    <button className='text-black ml-1 hover:underline transition-all duration-300 font-bold'>
-                        Đăng nhập ngay
-                    </button>
+                        <button className='text-black ml-1 hover:underline transition-all duration-300 font-bold'>
+                            Đăng nhập ngay
+                        </button>
                     </Link>
                 </div>
             </form>
