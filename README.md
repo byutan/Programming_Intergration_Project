@@ -21,7 +21,7 @@ project
 │   │   ├── components/           # Các thành phần UI (NavBar, SignUpForm, ...)
 │   │   └── assets/               # Hình ảnh, logo, icon
 │   ├── App.jsx                   # Cấu hình các component
-│   ├── main.jsx                  
+│   ├── main.jsx                  # Chạy nền tảng bên client
 │   ├── index.css
 │   ├── eslint.config.js
 │   ├── index.html
@@ -37,10 +37,12 @@ project
 │   ├── public/                   
 │   ├── src/
 │   │   ├── routes/               # Định nghĩa các API route
-│   │   ├── app.js                # Cấu hình các API
+│   │   ├── app.js                # Chứa và cấu hình các API
 │   ├── .env                      # Thông tin môi trường
-│   ├── package.json
-└── └── server.js
+│   ├── eslint.config.mjs
+│   ├── package.lock.json
+│   ├── package.json              
+└── └── server.js                 # Chạy nền tảng bên server
   </code></pre>
 </section>
 
@@ -52,8 +54,46 @@ project
        style="margin-left: 8px">
 </h2>
 
-`App.js`: Nơi chứa liên kết và cấu hình HTML/CSS của tất cả component chính.  
-`"dependencies"` của `package.json`: Thông tin tất cả dependencies được cài thêm vào trong ReactJS.  
-`components`: Thư mục chứa tất cả định nghĩa của component.
+- `App.js`: Nơi chứa liên kết và cấu hình HTML/CSS của tất cả component chính.  
+- `"dependencies"` của `package.json`: Thông tin tất cả dependencies được cài thêm vào trong ReactJS.  
+- `src/components`: Thư mục chứa tất cả định nghĩa của component.
+``
+<h2 style="display: flex; align-items: center; gap: 10px;">
+  <span>Backend</span>
+  <img src="https://cdn.simpleicons.org/express/000000?size=40" 
+       alt="ExpressJS Logo" 
+       width="40" 
+       style="display: inline-block;">
+  <img src="https://cdn.simpleicons.org/nodedotjs/339933?size=40" 
+       alt="NodeJS Logo" 
+       width="40" 
+       style="display: inline-block;">
+</h2>
 
+- `src/app.js`: Nơi chứa và cấu hình các API.
+```javascript
+import express from 'express';
+import serveFavicon from 'serve-favicon';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import cors from 'cors'
+
+import signUpRouter from './routes/signUp.js'                          //<- Import API từ routes
+
+const __fileName = fileURLToPath(import.meta.url);
+const __dirName = path.dirname(__fileName);
+const app = express(); 
+
+app.use(serveFavicon(path.join(__dirName, '../public', 'favicon.ico')));
+app.use(express.json())
+app.use(cors());
+
+app.get('/', function (req, res) {
+    res.send('Hello World!');
+});
+
+app.use('/api', signUpRouter)                                           //<- Thêm các biến import API từ đây.
+
+export default app;
 ```
+- `src/routes`: Thư mục chứa tất cả định nghĩa của API phục vụ component.
