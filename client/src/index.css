@@ -1,3 +1,36 @@
 @import "tailwindcss";
 @import "@fontsource/nunito";
 @import "@fontsource/merriweather";
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-slide-in {
+  animation: fadeSlideIn 0.6s ease-out forwards;
+}
+
+@keyframes halfFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100px) scale(0.8);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.half-fade-up {
+  animation: halfFadeUp 0.8s ease-out forwards;
+}
