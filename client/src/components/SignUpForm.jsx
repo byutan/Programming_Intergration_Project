@@ -1,12 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from '../contexts/UseAuth';
 import * as z from 'zod';
 
 const signUpSchema = z.object({
     fullName: z.string().nonempty("Vui lòng điền vào chỗ trống"),
-    email: z.string().email("Địa chỉ email không hợp lệ."),
+    email: z.email("Địa chỉ email không hợp lệ."),
     password: z.string()
         .min(8, "Mật khẩu từ 8 ký tự trở lên.")
         .regex(/[0-9]/, "Mật khẩu có ít nhất 1 ký tự số.")
@@ -25,13 +26,12 @@ const signUpSchema = z.object({
 
 export default function SignUpForm() {
     const [serverMessage, setServerMessage] = useState(null);
-    const navigate = useNavigate(); // ✅ thêm dòng này
-
+    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(signUpSchema),
         mode: "onChange"
     });
-
+    const { setUser } = useAuth();
     const onSubmit = async (data) => {
         try {
             const res = await fetch('http://localhost:3000/api/signup', {
@@ -48,14 +48,13 @@ export default function SignUpForm() {
 
             const result = await res.json();
             if (res.ok) {
-                localStorage.setItem('user', JSON.stringify(result.user || data));
                 setServerMessage({ type: "success", text: result.message || "Đăng ký tài khoản thành công." });
-                setTimeout(() => navigate('/homepage'), 1000);
+                setUser({ role: result.role, email: result.email });
+                localStorage.setItem("user", JSON.stringify({ role: result.role, email: result.email }));
+                navigate('/homepage');
             } else {
                 setServerMessage({ type: "error", text: result.error || "Đăng ký tài khoản thất bại. Vui lòng thử lại sau." });
             }
-
-            console.log("Form data:", data);
         } catch {
             setServerMessage({ type: "error", text: "Không thể kết nối tới server." });
         }

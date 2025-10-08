@@ -10,7 +10,7 @@ export default function HomePage() {
         duration: 1.5,
         ease: "easeOut"
       }}
-      className="flex justify-center min-h-screen text-black font-bold font-nunito bg-gray-50 text-3xl mt-16"
+      className="flex justify-center min-h-screen text-black font-bold font-nunito bg-white text-3xl mt-16"
     >
       Kết nối tới freelancer uy tín và tìm kiếm khách hàng tiềm năng
     </motion.div>
